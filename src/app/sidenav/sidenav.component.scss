@@ -1,0 +1,27 @@
+:host {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+  display: block;
+  border-radius: 4px;
+  box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.content {
+  background-color: white;
+  width: 50%;
+  height: 100%;
+  border-right: 1px solid #ececec;
+  transform: translateX(0);
+}
+
+span {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  cursor: pointer;
+}
