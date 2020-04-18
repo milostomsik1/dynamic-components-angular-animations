@@ -1,29 +1,23 @@
 import {
   Component, ViewChild, ViewContainerRef, ComponentFactoryResolver, Injector,
-  OnDestroy,
 } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { ProfileComponent } from './profile/profile.component';
 import { CartComponent } from './cart/cart.component';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnDestroy {
-  private readonly sub = new Subscription();
+export class AppComponent {
   @ViewChild('sidenav', { read: ViewContainerRef }) sidenav: ViewContainerRef;
 
   constructor(
     private readonly injector: Injector,
     private readonly cfr: ComponentFactoryResolver,
   ) { }
-
-  ngOnDestroy() {
-    this.sub.unsubscribe();
-  }
 
   createSidenav(contentComponent: any) {
     // clear, only 1 sidenav at any time
@@ -38,7 +32,7 @@ export class AppComponent implements OnDestroy {
     const sidenav = sidenavFactory.create(this.injector, [[content.location.nativeElement]]);
 
     // listen to sidenav output
-    this.sub.add(sidenav.instance.closed.subscribe(() => this.clear()));
+    sidenav.instance.closed.pipe(first()).subscribe(() => this.clear());
 
     // create sidenav component
     this.sidenav.insert(sidenav.hostView);
